@@ -1,0 +1,2 @@
+/usr/bin/ar cr libjoins.a  CMakeFiles/joins.dir/blockjoin.o CMakeFiles/joins.dir/indexjoin.o CMakeFiles/joins.dir/join.o CMakeFiles/joins.dir/sortmerge.o CMakeFiles/joins.dir/tuplejoin.o CMakeFiles/joins.dir/relation.o
+/usr/bin/ranlib libjoins.a

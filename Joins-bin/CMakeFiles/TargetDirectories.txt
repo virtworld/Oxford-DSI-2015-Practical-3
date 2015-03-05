@@ -1,0 +1,2 @@
+/auto/users/ms14jl/Documents/db/practical3/Joins-bin/joins/CMakeFiles/joins.dir
+/auto/users/ms14jl/Documents/db/practical3/Joins-bin/CMakeFiles/minibase-joins.dir
