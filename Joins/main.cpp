@@ -56,6 +56,7 @@ int main()
 				// Do your joining here.
 				//
 
+				int blocksize = (MINIBASE_BM->GetNumOfUnpinnedBuffers()-3*3)*MINIBASE_PAGESIZE;
 				long pinNo, pinMisses;
 				double duration;
 
@@ -63,9 +64,15 @@ int main()
 				cout << numOfRecR << ", Number of record in S: " << numOfRecS << endl;
 
 				TupleNestedLoopJoin(specOfR, specOfS, pinNo, pinMisses, duration);
-				// TODO: other two algoritrhms here
 				
 				cout << "TupleNestedLoopJoin: ";
+				cout << "Duration " << duration;
+				cout << ", pinNo " << pinNo;
+				cout << ", pinMisses " << pinMisses << endl;
+
+				BlockNestedLoopJoin(specOfR, specOfS, blocksize, pinNo, pinMisses, duration);
+
+				cout << "BlockNestedLoopJoin: ";
 				cout << "Duration " << duration;
 				cout << ", pinNo " << pinNo;
 				cout << ", pinMisses " << pinMisses << endl;
