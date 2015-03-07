@@ -18,7 +18,7 @@ int MINIBASE_RESTART_FLAG = 0;// used in minibase part
 
 #define NUM_OF_DB_PAGES  2000 // define # of DB pages
 #define NUM_OF_BUF_PAGES 50 // define Buf manager size.You will need to change this for the analysis
-#define DEBUG false
+#define DEBUG true
 
 using namespace std;
 
@@ -30,13 +30,13 @@ int main()
 	long count = 0;
 	for(int numOfBuf = 16; numOfBuf <= 2048; numOfBuf *= 2)
 	{
-		for(int numOfRecR = 2; numOfRecR <= 4096; numOfRecR *= 2)
+		for(int numOfRecR = 2; numOfRecR <= 128; numOfRecR *= 2)
 		{
-			for(int numOfRecS = 2; numOfRecS <= 4096; numOfRecS *= 2)
+			for(int numOfRecS = 2; numOfRecS <= 128; numOfRecS *= 2)
 			{
 				//numOfRecR = 10000;
 				//numOfRecS = 2500;
-				//remove( "MINIBASE.DB" ); 
+				remove( "MINIBASE.DB" ); 
 				//usleep(1000);
 				if(!DEBUG)
 				{	
@@ -97,6 +97,16 @@ int main()
 				if(DEBUG)
 				{
 					cout << "BlockNestedLoopJoin: ";
+					cout << "Duration " << duration;
+					cout << ", pinNo " << pinNo;
+					cout << ", pinMisses " << pinMisses << endl;
+				}
+
+				IndexNestedLoopJoin(specOfR, specOfS, pinNo, pinMisses, duration);
+				
+				if(DEBUG)
+				{
+					cout << "IndexNestedLoopJoin: ";
 					cout << "Duration " << duration;
 					cout << ", pinNo " << pinNo;
 					cout << ", pinMisses " << pinMisses << endl;
