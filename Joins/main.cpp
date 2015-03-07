@@ -17,102 +17,90 @@
 int MINIBASE_RESTART_FLAG = 0;// used in minibase part
 
 #define NUM_OF_DB_PAGES  2000 // define # of DB pages
-#define NUM_OF_BUF_PAGES 50 // define Buf manager size.You will need to change this for the analysis
-#define DEBUG true
+#define NUM_OF_BUF_MAX_PAGES 2048 // define Buf manager size.
+#define NUM_OF_MAX_REC_R 1024
+#define NUM_OF_MAX_REC_S 1024
+#define NUM_OF_REPEAT 10
 
 using namespace std;
 
-//static inline void loadbar(unsigned int x, unsigned int n, unsigned int w = 50);
+static inline void loadbar(unsigned int x, unsigned int n, unsigned int w = 50);
 
 int main()
 {
 
-	long count = 0;
-	for(int numOfBuf = 16; numOfBuf <= 2048; numOfBuf *= 2)
+	////////////////////////////////////////////////////
+	// Begin performance analysis //////////////////////
+	////////////////////////////////////////////////////
+	int count = 0;
+
+	for(int numOfBuf = 16; numOfBuf <= NUM_OF_BUF_MAX_PAGES; numOfBuf *= 2)
 	{
-		for(int numOfRecR = 2; numOfRecR <= 1024; numOfRecR *= 2)
+		for(int numOfRecR = 2; numOfRecR <= NUM_OF_MAX_REC_R; numOfRecR *= 2)
 		{
-			for(int numOfRecS = 2; numOfRecS <= 1024; numOfRecS *= 2)
+			for(int numOfRecS = 2; numOfRecS <= NUM_OF_MAX_REC_S; numOfRecS *= 2)
 			{
-				
-				remove( "MINIBASE.DB" ); 
-				
-				// if(!DEBUG)
-				// {	
-				// 	count++;
-				// 	int percentage = (int) ((count / (float) (12 * 12 * 8)) * 100);
-				// 	//cout<<percentage<<endl;
-				// 	loadbar(percentage, 100);
-				// }
-
-				Status s;
-				
-				minibase_globals = new SystemDefs(s, 
-					"MINIBASE.DB",
-					"MINIBASE.LOG",
-					NUM_OF_DB_PAGES,   // Number of pages allocated for database
-					500,
-					numOfBuf,  // Number of frames in buffer pool
-					NULL);
-		
-				srand(1);
-
-				//cerr << "Creating random records for relation R\n";
-				CreateR(numOfRecR, numOfRecS);
-				//cerr << "Creating random records for relation S\n";
-				CreateS(numOfRecR, numOfRecS);
-
-				JoinSpec specOfS, specOfR;
-
-				CreateSpecForR(specOfR);
-				CreateSpecForS(specOfS);
-
-				// 
-				// Do your joining here.
-				//
-
-				int blocksize = (MINIBASE_BM->GetNumOfUnpinnedBuffers()-3*3)*MINIBASE_PAGESIZE;
-				long pinNo, pinMisses;
-				double duration;
-
-				if(DEBUG)
+				for(int numOfRepear = 0; numOfRepear < NUM_OF_REPEAT; numOfRepear++)
 				{
-					cout << ">> Number of buffer pages: " << numOfBuf << ", Number of record in R: ";
-					cout << numOfRecR << ", Number of record in S: " << numOfRecS << endl;
-				}
-				
-				TupleNestedLoopJoin(specOfR, specOfS, pinNo, pinMisses, duration);
-				
-				if(DEBUG)
-				{
-					cout << "TupleNestedLoopJoin: ";
-					cout << "Duration " << duration;
-					cout << ", pinNo " << pinNo;
-					cout << ", pinMisses " << pinMisses << endl;
-				}
+					remove( "MINIBASE.DB" ); 
+					
+					// show load bar
+					count++;
+					int percentage = (int) ((count / (float) (10* 10 * 10 * 8)) * 100);
+					loadbar(percentage, 100);
+					if(percentage == 100) cout << endl;
 
-				BlockNestedLoopJoin(specOfR, specOfS, blocksize, pinNo, pinMisses, duration);
+					Status s;
+					
+					// Create a database manager
+					minibase_globals = new SystemDefs(s, 
+						"MINIBASE.DB",
+						"MINIBASE.LOG",
+						NUM_OF_DB_PAGES,   // Number of pages allocated for database
+						500,
+						numOfBuf,  // Number of frames in buffer pool
+						NULL);
+			
+					srand(1);
 
-				if(DEBUG)
-				{
-					cout << "BlockNestedLoopJoin: ";
-					cout << "Duration " << duration;
-					cout << ", pinNo " << pinNo;
-					cout << ", pinMisses " << pinMisses << endl;
+					// Create relation R and S
+					CreateR(numOfRecR, numOfRecS);
+					CreateS(numOfRecR, numOfRecS);
+
+					JoinSpec specOfS, specOfR;
+					CreateSpecForR(specOfR);
+					CreateSpecForS(specOfS);
+
+					int blocksize = (MINIBASE_BM->GetNumOfUnpinnedBuffers()-3*3)*MINIBASE_PAGESIZE;
+					long pinNo, pinMisses;
+					double duration;
+
+					// cout << ">> Number of buffer pages: " << numOfBuf << ", Number of record in R: ";
+					// cout << numOfRecR << ", Number of record in S: " << numOfRecS << endl;
+					
+					TupleNestedLoopJoin(specOfR, specOfS, pinNo, pinMisses, duration);
+					
+					// cout << "TupleNestedLoopJoin: ";
+					// cout << "Duration " << duration;
+					// cout << ", pinNo " << pinNo;
+					// cout << ", pinMisses " << pinMisses << endl;
+
+					BlockNestedLoopJoin(specOfR, specOfS, blocksize, pinNo, pinMisses, duration);
+
+					// cout << "BlockNestedLoopJoin: ";
+					// cout << "Duration " << duration;
+					// cout << ", pinNo " << pinNo;
+					// cout << ", pinMisses " << pinMisses << endl;
+
+					IndexNestedLoopJoin(specOfR, specOfS, pinNo, pinMisses, duration);
+					
+					// cout << "IndexNestedLoopJoin: ";
+					// cout << "Duration " << duration;
+					// cout << ", pinNo " << pinNo;
+					// cout << ", pinMisses " << pinMisses << endl;
+
+					delete minibase_globals;
 				}
-
-				IndexNestedLoopJoin(specOfR, specOfS, pinNo, pinMisses, duration);
-				
-				if(DEBUG)
-				{
-					cout << "IndexNestedLoopJoin: ";
-					cout << "Duration " << duration;
-					cout << ", pinNo " << pinNo;
-					cout << ", pinMisses " << pinMisses << endl;
-				}
-
-				delete minibase_globals;
-				
 			}
 	 	}
 	}
@@ -124,15 +112,16 @@ int main()
   * Loadbar from: 
   * https://www.ross.click/2011/02/creating-a-progress-bar-in-c-or-any-other-console-app/
   */
-// static inline void loadbar(unsigned int x, unsigned int n, unsigned int w)
-// {
-//     if ( (x != n) && (x % (n/100+1) != 0) ) return;
+static inline void loadbar(unsigned int x, unsigned int n, unsigned int w)
+{
+    if ( (x != n) && (x % (n/100+1) != 0) ) {
+    	return;
+ 	}
+    float ratio  =  x/(float)n;
+    int   c      =  ratio * w;
  
-//     float ratio  =  x/(float)n;
-//     int   c      =  ratio * w;
- 
-//     cout << setw(3) << (int)(ratio*100) << "% [";
-//     for (int x=0; x<c; x++) cout << "=";
-//     for (int x=c; x<w; x++) cout << " ";
-//     cout << "]\r" << flush;
-// }
+    cout << setw(3) << (int)(ratio*100) << "% [";
+    for (int x=0; x<c; x++) cout << "=";
+    for (int x=c; x<w; x++) cout << " ";
+    cout << "]\r" << flush;
+}
