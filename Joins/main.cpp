@@ -34,17 +34,25 @@ using namespace std;
 void perfCompTask1();
 void perfCompTask2();
 void perfCompTask3();
+
 void callJoins( int numOfBuf, int numOfRecR, int numOfRecS, 
 	long pinNo[3], long pinMisses[3], double duration[3] );
+
+void printTestTitle(int testNo, bool isStart, const char* nameOfTest);
+void printSettings(int buf, int recR, int recS);
+void printResults(double avgPinNo[3], double avgPinMisses[3], double avgDuration[3]);
+
 static inline void loadbar(unsigned int x, unsigned int n, unsigned int w = 40);
 
 int main()
 {
+	remove( "data.txt" ); 
 	perfCompTask1();
 	perfCompTask2();
 	perfCompTask3();
 	return 1;
 }
+
 
 //--------------------------------------------------
 // Performance comparison 1
@@ -58,10 +66,9 @@ void perfCompTask1()
 	double *avgPinMisses = new double[3];
 	double *avgDuration = new double[3];
 
-	printf("%s\n", ">>----------Test 1: Origional settings----------");
-	printf("%-10s%15s%15s%15s\n", "Settings", "# Buf Pages", "# Rec in R", "# Rec in S"); 
-	printf("%25d%15d%15d\n", NUM_OF_BUF_PAGES_ORIGINAL, NUM_OF_REC_IN_R_ORIGINAL, NUM_OF_REC_IN_S_ORIGINAL); 
-
+	//printf("%s\n", ">>----------Test 1: Origional settings----------");
+	printTestTitle(1, true, "Origional settings");
+	printSettings(NUM_OF_BUF_PAGES_ORIGINAL, NUM_OF_REC_IN_R_ORIGINAL, NUM_OF_REC_IN_S_ORIGINAL);
 
 	for(int numOfRepetition = 0; numOfRepetition < NUM_OF_REPETITION_TASK1; numOfRepetition++)
 	{
@@ -89,15 +96,10 @@ void perfCompTask1()
 		count++;
 	}
 
-	// print statistics
-	printf("%-10s%15s%15s%15s\n", "Results", "Avg # Pin", "Avg # Misses", "Avg Duration"); 
-	printf("%-10s%15.0f%15.0f%15f\n", "Tuple Join", avgPinNo[0], avgPinMisses[0], avgDuration[0]); 
-	printf("%-10s%15.0f%15.0f%15f\n", "Block Join", avgPinNo[1], avgPinMisses[1], avgDuration[1]); 
-	printf("%-10s%15.0f%15.0f%15f\n\n", "Index Join", avgPinNo[2], avgPinMisses[2], avgDuration[2]); 
-
+	printResults( avgPinNo, avgPinMisses, avgDuration);
 	delete[] avgPinNo, avgPinMisses, avgDuration;
 	
-	printf("%s\n\n", ">>----------End of Test 1----------");
+	printTestTitle(1, false, "Origional settings");
 }
 
 //--------------------------------------------------
@@ -108,13 +110,11 @@ void perfCompTask1()
 void perfCompTask2()
 {
 	int count = 0;
-	
-	printf("%s\n", ">>----------Test 2 : Variant buffer size----------");
+	printTestTitle(2, true, "Variant buffer size");
 
 	for(int numOfBuf = 16; numOfBuf <= NUM_OF_BUF_MAX_PAGES; numOfBuf *= 4)
 	{
-		printf("%-10s%15s%15s%15s\n", "Settings", "# Buf Pages", "# Rec in R", "# Rec in S"); 
-		printf("%25d%15d%15d\n", numOfBuf, NUM_OF_REC_IN_R_ORIGINAL, NUM_OF_REC_IN_S_ORIGINAL); 
+		printSettings(numOfBuf, NUM_OF_REC_IN_R_ORIGINAL, NUM_OF_REC_IN_S_ORIGINAL);
 
 		double *avgPinNo = new double[3];
 		double *avgPinMisses = new double[3];
@@ -147,15 +147,11 @@ void perfCompTask2()
 			count++;
 		}
 
-		// print statistics
-		printf("%-10s%15s%15s%15s\n", "Results", "Avg # Pin", "Avg # Misses", "Avg Duration"); 
-		printf("%-10s%15.0f%15.0f%15f\n", "Tuple Join", avgPinNo[0], avgPinMisses[0], avgDuration[0]); 
-		printf("%-10s%15.0f%15.0f%15f\n", "Block Join", avgPinNo[1], avgPinMisses[1], avgDuration[1]); 
-		printf("%-10s%15.0f%15.0f%15f\n\n", "Index Join", avgPinNo[2], avgPinMisses[2], avgDuration[2]); 
-
+		printResults( avgPinNo, avgPinMisses, avgDuration);
 		delete[] avgPinNo, avgPinMisses, avgDuration;
 	}
-	printf("%s\n\n", ">>----------End of Test 2----------");
+
+	printTestTitle(2, false, "Variant buffer size");
 }
 
 //--------------------------------------------------
@@ -167,14 +163,13 @@ void perfCompTask3()
 {
 	int count = 0;
 	
-	printf("%s\n", ">>----------Test 3 : Variant R & S size----------");
+	printTestTitle(3, true, "Variant R & S size");
 
 	for(int numOfRecR = 100; numOfRecR <= NUM_OF_MAX_REC_R; numOfRecR *= 10)
 	{
 		for(int numOfRecS = 25; numOfRecS <= NUM_OF_MAX_REC_S && numOfRecS < numOfRecR; numOfRecS *= 10)
 		{
-			printf("%-10s%15s%15s%15s\n", "Settings", "# Buf Pages", "# Rec in R", "# Rec in S"); 
-			printf("%25d%15d%15d\n", NUM_OF_BUF_PAGES_ORIGINAL, numOfRecR, numOfRecS); 
+			printSettings(NUM_OF_BUF_PAGES_ORIGINAL, numOfRecR, numOfRecS);
 
 			double *avgPinNo = new double[3];
 			double *avgPinMisses = new double[3];
@@ -206,18 +201,13 @@ void perfCompTask3()
 				count++;
 			}
 
-			// print statistics
-			printf("%-10s%15s%15s%15s\n", "Results", "Avg # Pin", "Avg # Misses", "Avg Duration"); 
-			printf("%-10s%15.0f%15.0f%15f\n", "Tuple Join", avgPinNo[0], avgPinMisses[0], avgDuration[0]); 
-			printf("%-10s%15.0f%15.0f%15f\n", "Block Join", avgPinNo[1], avgPinMisses[1], avgDuration[1]); 
-			printf("%-10s%15.0f%15.0f%15f\n\n", "Index Join", avgPinNo[2], avgPinMisses[2], avgDuration[2]); 
-
+			printResults( avgPinNo, avgPinMisses, avgDuration);
 			delete[] avgPinNo, avgPinMisses, avgDuration;
 			cout<< endl;
 		}
 	}
 
-	printf("%s\n\n", ">>----------End of Test 3----------");
+	printTestTitle(3, false, "Variant R & S size");
 }
 
 void callJoins( int numOfBuf, int numOfRecR, int numOfRecS, 
@@ -252,6 +242,47 @@ void callJoins( int numOfBuf, int numOfRecR, int numOfRecS,
 	IndexNestedLoopJoin(specOfR, specOfS, pinNo[2], pinMisses[2], duration[2]);
 
 	delete minibase_globals;
+}
+
+void printTestTitle(int testNo, bool isStart, const char* nameOfTest)
+{
+	FILE *pFile = fopen ("data.txt","a");
+	if(isStart)
+	{
+		printf("%s%d%s%s%s\n", ">>----------Test ", testNo, ": ", nameOfTest, "----------");
+		fprintf(pFile, "%s%d%s%s%s\n", ">>----------Test ", testNo, ": ", nameOfTest, "----------");
+	}
+	else
+	{
+		printf("%s%d%s\n\n", ">>----------End of Test ", testNo, "----------");
+		fprintf(pFile, "%s%d%s\n\n", ">>----------End of Test ", testNo, "----------");
+	}
+
+	fclose(pFile);
+}
+
+void printSettings(int buf, int recR, int recS)
+{
+	FILE *pFile = fopen ("data.txt","a");
+	printf("%-10s%15s%15s%15s\n", "Settings", "# Buf Pages", "# Rec in R", "# Rec in S"); 
+	printf("%25d%15d%15d\n", buf, recR, recS); 
+	fprintf(pFile, "%-10s%15s%15s%15s\n", "Settings", "# Buf Pages", "# Rec in R", "# Rec in S");
+	fprintf(pFile, "%25d%15d%15d\n", buf, recR, recS); 
+	fclose (pFile);
+}
+
+void printResults(double avgPinNo[3], double avgPinMisses[3], double avgDuration[3])
+{
+	FILE *pFile = fopen ("data.txt","a");
+	printf("%-10s%15s%15s%15s\n", "Results", "Avg # Pin", "Avg # Misses", "Avg Duration"); 
+	printf("%-10s%15.0f%15.0f%15f\n", "Tuple Join", avgPinNo[0], avgPinMisses[0], avgDuration[0]); 
+	printf("%-10s%15.0f%15.0f%15f\n", "Block Join", avgPinNo[1], avgPinMisses[1], avgDuration[1]); 
+	printf("%-10s%15.0f%15.0f%15f\n\n", "Index Join", avgPinNo[2], avgPinMisses[2], avgDuration[2]); 
+	fprintf(pFile, "%-10s%15s%15s%15s\n", "Results", "Avg # Pin", "Avg # Misses", "Avg Duration"); 
+	fprintf(pFile, "%-10s%15.0f%15.0f%15f\n", "Tuple Join", avgPinNo[0], avgPinMisses[0], avgDuration[0]); 
+	fprintf(pFile, "%-10s%15.0f%15.0f%15f\n", "Block Join", avgPinNo[1], avgPinMisses[1], avgDuration[1]); 
+	fprintf(pFile, "%-10s%15.0f%15.0f%15f\n\n", "Index Join", avgPinNo[2], avgPinMisses[2], avgDuration[2]); 
+	fclose(pFile);
 }
 
 /**
