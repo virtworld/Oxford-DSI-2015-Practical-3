@@ -18,7 +18,7 @@ int MINIBASE_RESTART_FLAG = 0;// used in minibase part
 
 #define NUM_OF_DB_PAGES  2000 // define # of DB pages
 #define NUM_OF_BUF_PAGES 50 // define Buf manager size.You will need to change this for the analysis
-#define RAW_OUTPUT_ON false
+#define DEBUG false
 
 using namespace std;
 
@@ -30,14 +30,18 @@ int main()
 	long count = 0;
 	for(int numOfBuf = 16; numOfBuf <= 2048; numOfBuf *= 2)
 	{
-		for(int numOfRecR = 2; numOfRecR <= 1024; numOfRecR *= 2)
+		for(int numOfRecR = 2; numOfRecR <= 4096; numOfRecR *= 2)
 		{
-			for(int numOfRecS = 2; numOfRecS <= 1024; numOfRecS *= 2)
+			for(int numOfRecS = 2; numOfRecS <= 4096; numOfRecS *= 2)
 			{
-				if(!RAW_OUTPUT_ON)
+				//numOfRecR = 10000;
+				//numOfRecS = 2500;
+				//remove( "MINIBASE.DB" ); 
+				//usleep(1000);
+				if(!DEBUG)
 				{	
 					count++;
-					int percentage = (int) ((count / (float) (10 * 10 * 8)) * 100);
+					int percentage = (int) ((count / (float) (12 * 12 * 8)) * 100);
 					//cout<<percentage<<endl;
 					loadbar(percentage, 100);
 				}
@@ -55,9 +59,9 @@ int main()
 				srand(1);
 
 				//cerr << "Creating random records for relation R\n";
-				CreateR(numOfRecR, numOfRecS);
+				CreateR(10000, 2500);
 				//cerr << "Creating random records for relation S\n";
-				CreateS(numOfRecR, numOfRecS);
+				CreateS(10000, 2500);
 
 				JoinSpec specOfS, specOfR;
 
@@ -72,7 +76,7 @@ int main()
 				long pinNo, pinMisses;
 				double duration;
 
-				if(RAW_OUTPUT_ON)
+				if(DEBUG)
 				{
 					cout << ">> Number of buffer pages: " << numOfBuf << ", Number of record in R: ";
 					cout << numOfRecR << ", Number of record in S: " << numOfRecS << endl;
@@ -80,7 +84,7 @@ int main()
 				
 				TupleNestedLoopJoin(specOfR, specOfS, pinNo, pinMisses, duration);
 				
-				if(RAW_OUTPUT_ON)
+				if(DEBUG)
 				{
 					cout << "TupleNestedLoopJoin: ";
 					cout << "Duration " << duration;
@@ -90,7 +94,7 @@ int main()
 
 				BlockNestedLoopJoin(specOfR, specOfS, blocksize, pinNo, pinMisses, duration);
 
-				if(RAW_OUTPUT_ON)
+				if(DEBUG)
 				{
 					cout << "BlockNestedLoopJoin: ";
 					cout << "Duration " << duration;
@@ -99,7 +103,7 @@ int main()
 				}
 
 				delete minibase_globals;
-				remove( "MINIBASE.DB" ); 
+				
 			}
 	 	}
 	}

@@ -18,8 +18,8 @@ typedef struct JoinSpec {
 #define ATTR_INT  attrInteger
 #define ATTR_STRING attrString
 
-#define NUM_OF_REC_IN_R 10000 // # of records in R
-#define NUM_OF_REC_IN_S 2500 // # of records in S
+//#define NUM_OF_REC_IN_R 10000 // # of records in R
+//#define NUM_OF_REC_IN_S 2500 // # of records in S
 #define NUM_OF_ATTR_IN_R 6
 #define NUM_OF_ATTR_IN_S 4
 
@@ -27,7 +27,7 @@ typedef struct JoinSpec {
 // You need to allocate space for newRecord before calling this function.
 void MakeNewRecord(char *newRecord, char *r, char *s, int recLenR, int recLenS);
 
-void TupleNestedLoopJoin(JoinSpec, JoinSpec, long& pinRequests, long& pinMisses, double& duration);
+void TupleNestedLoopJoin(JoinSpec, JoinSpec, long& pinRequests, long& pinMissesa, double& duration);
 // int arg is blocksize
 void BlockNestedLoopJoin(JoinSpec, JoinSpec, int, long& pinRequests, long& pinMisses, double& duration);
 void IndexNestedLoopJoin(JoinSpec, JoinSpec, long& pinRequests, long& pinMisses, double& duration);

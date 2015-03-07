@@ -6,6 +6,50 @@
 
 #IncludeRegexTransform: 
 
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/bt.h
+minirel.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/minirel.h
+foo.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/foo.h
+
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/btfile.h
+btindex.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/btindex.h
+btleaf.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/btleaf.h
+index.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/index.h
+btfilescan.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/btfilescan.h
+bt.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/bt.h
+
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/btfilescan.h
+btfile.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/btfile.h
+
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/btindex.h
+minirel.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/minirel.h
+page.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/page.h
+sortedpage.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/sortedpage.h
+bt.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/bt.h
+
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/btleaf.h
+minirel.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/minirel.h
+page.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/page.h
+sortedpage.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/sortedpage.h
+bt.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/bt.h
+btindex.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/btindex.h
+
 /auto/users/ms14jl/Documents/db/practical3/Joins/include/bufmgr.h
 db.h
 /auto/users/ms14jl/Documents/db/practical3/Joins/include/db.h
@@ -32,6 +76,8 @@ page.h
 heappage.h
 /auto/users/ms14jl/Documents/db/practical3/Joins/include/heappage.h
 
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/foo.h
+
 /auto/users/ms14jl/Documents/db/practical3/Joins/include/frame.h
 page.h
 /auto/users/ms14jl/Documents/db/practical3/Joins/include/page.h
@@ -53,6 +99,10 @@ minirel.h
 /auto/users/ms14jl/Documents/db/practical3/Joins/include/minirel.h
 page.h
 /auto/users/ms14jl/Documents/db/practical3/Joins/include/page.h
+
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/index.h
+minirel.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/minirel.h
 
 /auto/users/ms14jl/Documents/db/practical3/Joins/include/join.h
 minirel.h
@@ -100,9 +150,19 @@ dirpage.h
 heappage.h
 /auto/users/ms14jl/Documents/db/practical3/Joins/include/heappage.h
 
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/sortedpage.h
+minirel.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/minirel.h
+page.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/page.h
+heappage.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/heappage.h
+bt.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/bt.h
+
 /auto/users/ms14jl/Documents/db/practical3/Joins/include/system_defs.h
 
-/auto/users/ms14jl/Documents/db/practical3/Joins/joins/blockjoin.cpp
+/auto/users/ms14jl/Documents/db/practical3/Joins/joins/indexjoin.cpp
 stdio.h
 -
 stdlib.h
@@ -119,6 +179,10 @@ time.h
 /auto/users/ms14jl/Documents/db/practical3/Joins/include/scan.h
 ../include/join.h
 /auto/users/ms14jl/Documents/db/practical3/Joins/include/join.h
+../include/btfile.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/btfile.h
+../include/btfilescan.h
+/auto/users/ms14jl/Documents/db/practical3/Joins/include/btfilescan.h
 ../include/relation.h
 /auto/users/ms14jl/Documents/db/practical3/Joins/include/relation.h
 ../include/bufmgr.h
