@@ -22,7 +22,7 @@ int MINIBASE_RESTART_FLAG = 0;// used in minibase part
 
 using namespace std;
 
-static inline void loadbar(unsigned int x, unsigned int n, unsigned int w = 50);
+//static inline void loadbar(unsigned int x, unsigned int n, unsigned int w = 50);
 
 int main()
 {
@@ -30,21 +30,20 @@ int main()
 	long count = 0;
 	for(int numOfBuf = 16; numOfBuf <= 2048; numOfBuf *= 2)
 	{
-		for(int numOfRecR = 2; numOfRecR <= 128; numOfRecR *= 2)
+		for(int numOfRecR = 2; numOfRecR <= 1024; numOfRecR *= 2)
 		{
-			for(int numOfRecS = 2; numOfRecS <= 128; numOfRecS *= 2)
+			for(int numOfRecS = 2; numOfRecS <= 1024; numOfRecS *= 2)
 			{
-				//numOfRecR = 10000;
-				//numOfRecS = 2500;
+				
 				remove( "MINIBASE.DB" ); 
-				//usleep(1000);
-				if(!DEBUG)
-				{	
-					count++;
-					int percentage = (int) ((count / (float) (12 * 12 * 8)) * 100);
-					//cout<<percentage<<endl;
-					loadbar(percentage, 100);
-				}
+				
+				// if(!DEBUG)
+				// {	
+				// 	count++;
+				// 	int percentage = (int) ((count / (float) (12 * 12 * 8)) * 100);
+				// 	//cout<<percentage<<endl;
+				// 	loadbar(percentage, 100);
+				// }
 
 				Status s;
 				
@@ -59,9 +58,9 @@ int main()
 				srand(1);
 
 				//cerr << "Creating random records for relation R\n";
-				CreateR(10000, 2500);
+				CreateR(numOfRecR, numOfRecS);
 				//cerr << "Creating random records for relation S\n";
-				CreateS(10000, 2500);
+				CreateS(numOfRecR, numOfRecS);
 
 				JoinSpec specOfS, specOfR;
 
@@ -125,15 +124,15 @@ int main()
   * Loadbar from: 
   * https://www.ross.click/2011/02/creating-a-progress-bar-in-c-or-any-other-console-app/
   */
-static inline void loadbar(unsigned int x, unsigned int n, unsigned int w)
-{
-    if ( (x != n) && (x % (n/100+1) != 0) ) return;
+// static inline void loadbar(unsigned int x, unsigned int n, unsigned int w)
+// {
+//     if ( (x != n) && (x % (n/100+1) != 0) ) return;
  
-    float ratio  =  x/(float)n;
-    int   c      =  ratio * w;
+//     float ratio  =  x/(float)n;
+//     int   c      =  ratio * w;
  
-    cout << setw(3) << (int)(ratio*100) << "% [";
-    for (int x=0; x<c; x++) cout << "=";
-    for (int x=c; x<w; x++) cout << " ";
-    cout << "]\r" << flush;
-}
+//     cout << setw(3) << (int)(ratio*100) << "% [";
+//     for (int x=0; x<c; x++) cout << "=";
+//     for (int x=c; x<w; x++) cout << " ";
+//     cout << "]\r" << flush;
+// }
