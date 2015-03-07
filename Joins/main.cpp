@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <iomanip>
 #include <stdio.h>
+#include <cstdio>
 
 int MINIBASE_RESTART_FLAG = 0;// used in minibase part
 
@@ -35,7 +36,7 @@ void perfCompTask2();
 void perfCompTask3();
 void callJoins( int numOfBuf, int numOfRecR, int numOfRecS, 
 	long pinNo[3], long pinMisses[3], double duration[3] );
-static inline void loadbar(unsigned int x, unsigned int n, unsigned int w = 50);
+static inline void loadbar(unsigned int x, unsigned int n, unsigned int w = 40);
 
 int main()
 {
@@ -57,10 +58,10 @@ void perfCompTask1()
 	double *avgPinMisses = new double[3];
 	double *avgDuration = new double[3];
 
-	cout<< ">>----------Test 1: Origional settings----------"<<endl;
-	cout<< ">>Running " << NUM_OF_REPETITION_TASK1 << " joins..." << endl;
-	cout << "Settings   | # Buffer pages: " << NUM_OF_BUF_PAGES_ORIGINAL << " | # Records in R: ";
-	cout << NUM_OF_REC_IN_R_ORIGINAL << " | # Records in S: " << NUM_OF_REC_IN_S_ORIGINAL << endl;
+	printf("%s\n", ">>----------Test 1: Origional settings----------");
+	printf("%-10s%15s%15s%15s\n", "Settings", "# Buf Pages", "# Rec in R", "# Rec in S"); 
+	printf("%25d%15d%15d\n", NUM_OF_BUF_PAGES_ORIGINAL, NUM_OF_REC_IN_R_ORIGINAL, NUM_OF_REC_IN_S_ORIGINAL); 
+
 
 	for(int numOfRepetition = 0; numOfRepetition < NUM_OF_REPETITION_TASK1; numOfRepetition++)
 	{
@@ -89,16 +90,14 @@ void perfCompTask1()
 	}
 
 	// print statistics
-	cout << fixed << "Tuple Join | # Avg Pin: " << avgPinNo[0] << " | # Avg Misses: " << 
-	        avgPinMisses[0] << " | Avg Duration: " << avgDuration[0] << endl;
-	cout << fixed << "Block Join | # Avg Pin: " << avgPinNo[1] << " | # Avg Misses: " << 
-	        avgPinMisses[1] << " | Avg Duration: " << avgDuration[1] << endl;
-	cout << fixed << "Index Join | # Avg Pin: " << avgPinNo[2] << " | # Avg Misses: " << 
-	        avgPinMisses[2] << " | Avg Duration: " << avgDuration[2] << endl;
+	printf("%-10s%15s%15s%15s\n", "Results", "Avg # Pin", "Avg # Misses", "Avg Duration"); 
+	printf("%-10s%15.0f%15.0f%15f\n", "Tuple Join", avgPinNo[0], avgPinMisses[0], avgDuration[0]); 
+	printf("%-10s%15.0f%15.0f%15f\n", "Block Join", avgPinNo[1], avgPinMisses[1], avgDuration[1]); 
+	printf("%-10s%15.0f%15.0f%15f\n\n", "Index Join", avgPinNo[2], avgPinMisses[2], avgDuration[2]); 
 
 	delete[] avgPinNo, avgPinMisses, avgDuration;
-	 
-	cout <<endl<< ">>----------End of Test 1----------" << endl << endl;
+	
+	printf("%s\n\n", ">>----------End of Test 1----------");
 }
 
 //--------------------------------------------------
@@ -110,16 +109,16 @@ void perfCompTask2()
 {
 	int count = 0;
 	
-	cout<< ">>----------Test 2 : Variant buffer size----------"<<endl;
-	cout<< ">>Running " << NUM_OF_REPETITION_TASK2 << " joins for each buffer size..." << endl;
+	printf("%s\n", ">>----------Test 2 : Variant buffer size----------");
 
 	for(int numOfBuf = 16; numOfBuf <= NUM_OF_BUF_MAX_PAGES; numOfBuf *= 4)
 	{
+		printf("%-10s%15s%15s%15s\n", "Settings", "# Buf Pages", "# Rec in R", "# Rec in S"); 
+		printf("%25d%15d%15d\n", numOfBuf, NUM_OF_REC_IN_R_ORIGINAL, NUM_OF_REC_IN_S_ORIGINAL); 
+
 		double *avgPinNo = new double[3];
 		double *avgPinMisses = new double[3];
 		double *avgDuration = new double[3];
-		cout << "Settings   | # Buffer pages: " << numOfBuf << " | # Records in R: ";
-		cout << NUM_OF_REC_IN_R_ORIGINAL << " | # Records in S: " << NUM_OF_REC_IN_S_ORIGINAL << endl;
 
 		for(int numOfRepetition = 0; numOfRepetition < NUM_OF_REPETITION_TASK2; numOfRepetition++)
 		{
@@ -149,17 +148,14 @@ void perfCompTask2()
 		}
 
 		// print statistics
-		cout << fixed << "Tuple Join | # Avg Pin: " << avgPinNo[0] << " | # Avg Misses: " << 
-		        avgPinMisses[0] << " | Avg Duration: " << avgDuration[0] << endl;
-		cout << fixed << "Block Join | # Avg Pin: " << avgPinNo[1] << " | # Avg Misses: " << 
-		        avgPinMisses[1] << " | Avg Duration: " << avgDuration[1] << endl;
-		cout << fixed << "Index Join | # Avg Pin: " << avgPinNo[2] << " | # Avg Misses: " << 
-		        avgPinMisses[2] << " | Avg Duration: " << avgDuration[2] << endl;
+		printf("%-10s%15s%15s%15s\n", "Results", "Avg # Pin", "Avg # Misses", "Avg Duration"); 
+		printf("%-10s%15.0f%15.0f%15f\n", "Tuple Join", avgPinNo[0], avgPinMisses[0], avgDuration[0]); 
+		printf("%-10s%15.0f%15.0f%15f\n", "Block Join", avgPinNo[1], avgPinMisses[1], avgDuration[1]); 
+		printf("%-10s%15.0f%15.0f%15f\n\n", "Index Join", avgPinNo[2], avgPinMisses[2], avgDuration[2]); 
 
 		delete[] avgPinNo, avgPinMisses, avgDuration;
-		cout<< endl;
 	}
-	cout << ">>----------End of Test 2----------" << endl << endl;
+	printf("%s\n\n", ">>----------End of Test 2----------");
 }
 
 //--------------------------------------------------
@@ -171,29 +167,28 @@ void perfCompTask3()
 {
 	int count = 0;
 	
-	cout<< ">>----------Test 3 : Variant R & S size----------"<<endl;
-	cout<< ">>Running " << NUM_OF_REPETITION_TASK3 << " joins for each size combination..." << endl;
+	printf("%s\n", ">>----------Test 3 : Variant R & S size----------");
 
 	for(int numOfRecR = 100; numOfRecR <= NUM_OF_MAX_REC_R; numOfRecR *= 10)
 	{
 		for(int numOfRecS = 25; numOfRecS <= NUM_OF_MAX_REC_S; numOfRecS *= 10)
 		{
+			printf("%-10s%15s%15s%15s\n", "Settings", "# Buf Pages", "# Rec in R", "# Rec in S"); 
+			printf("%25d%15d%15d\n", NUM_OF_BUF_PAGES_ORIGINAL, numOfRecR, numOfRecS); 
+
 			double *avgPinNo = new double[3];
 			double *avgPinMisses = new double[3];
 			double *avgDuration = new double[3];
-			
-			cout << "Settings   | # Buffer pages: " << NUM_OF_BUF_PAGES_ORIGINAL << " | # Records in R: ";
-			cout << numOfRecR << " | # Records in S: " << numOfRecS << endl;
 
 			for(int numOfRepetition = 0; numOfRepetition < NUM_OF_REPETITION_TASK3; numOfRepetition++)
 			{
-					// display progress bar
+				// display progress bar
 
 				int percentage = (int) ((count / (float) (NUM_OF_REPETITION_TASK3 * 3 * 3)) * 100);
 				loadbar(percentage, 100);
 				if(percentage == 100) cout << endl;
 
-					// do joins
+				// do joins
 				long *pinNo = new long[3];
 				long *pinMisses = new long[3];
 				double *duration = new double[3];
@@ -213,19 +208,17 @@ void perfCompTask3()
 			}
 
 			// print statistics
-			cout << fixed << "Tuple Join | # Avg Pin: " << avgPinNo[0] << " | # Avg Misses: " << 
-			avgPinMisses[0] << " | Avg Duration: " << avgDuration[0] << endl;
-			cout << fixed << "Block Join | # Avg Pin: " << avgPinNo[1] << " | # Avg Misses: " << 
-			avgPinMisses[1] << " | Avg Duration: " << avgDuration[1] << endl;
-			cout << fixed << "Index Join | # Avg Pin: " << avgPinNo[2] << " | # Avg Misses: " << 
-			avgPinMisses[2] << " | Avg Duration: " << avgDuration[2] << endl;
+			printf("%-10s%15s%15s%15s\n", "Results", "Avg # Pin", "Avg # Misses", "Avg Duration"); 
+			printf("%-10s%15.0f%15.0f%15f\n", "Tuple Join", avgPinNo[0], avgPinMisses[0], avgDuration[0]); 
+			printf("%-10s%15.0f%15.0f%15f\n", "Block Join", avgPinNo[1], avgPinMisses[1], avgDuration[1]); 
+			printf("%-10s%15.0f%15.0f%15f\n\n", "Index Join", avgPinNo[2], avgPinMisses[2], avgDuration[2]); 
 
 			delete[] avgPinNo, avgPinMisses, avgDuration;
 			cout<< endl;
 		}
 	}
 
-	cout << ">>----------End of Test 3----------" << endl << endl;
+	printf("%s\n\n", ">>----------End of Test 3----------");
 }
 
 void callJoins( int numOfBuf, int numOfRecR, int numOfRecS, 
