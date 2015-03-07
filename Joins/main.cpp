@@ -22,12 +22,12 @@ int MINIBASE_RESTART_FLAG = 0;// used in minibase part
 #define NUM_OF_REC_IN_R_ORIGINAL 10000 // origional settings 
 #define NUM_OF_REC_IN_S_ORIGINAL 2500 // origional settings 
 
-#define NUM_OF_BUF_MAX_PAGES 1024 // for the experiment on different buffer size
+#define NUM_OF_BUF_MAX_PAGES 2048 // for the experiment on different buffer size
 #define NUM_OF_MAX_REC_R 10000 // for the experiment on different R size 
 #define NUM_OF_MAX_REC_S 2500 // for the experiment on different S size
 #define NUM_OF_REPETITION_TASK1 10
-#define NUM_OF_REPETITION_TASK2 10
-#define NUM_OF_REPETITION_TASK3 10
+#define NUM_OF_REPETITION_TASK2 5
+#define NUM_OF_REPETITION_TASK3 5
 
 using namespace std;
 
@@ -178,7 +178,7 @@ void perfCompTask3()
 			for(int numOfRepetition = 0; numOfRepetition < NUM_OF_REPETITION_TASK3; numOfRepetition++)
 			{
 				// display progress bar
-				int percentage = (int) ((count / (float) (NUM_OF_REPETITION_TASK2 * 6)) * 100);
+				int percentage = (int) ((count / (float) (NUM_OF_REPETITION_TASK3 * 6)) * 100);
 				loadbar(percentage, 100);
 				if(percentage == 100) cout << endl;
 
