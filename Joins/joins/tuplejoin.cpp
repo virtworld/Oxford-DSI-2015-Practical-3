@@ -85,6 +85,7 @@ void TupleNestedLoopJoin(JoinSpec specOfR, JoinSpec specOfS,
 	// clean up
 	delete scanOnR;
 	delete[] recPtrR, recPtrS, recPtrRandS;
+
 	delete joinedRelation;
 
 	// get stat;

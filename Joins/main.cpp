@@ -171,7 +171,7 @@ void perfCompTask3()
 
 	for(int numOfRecR = 100; numOfRecR <= NUM_OF_MAX_REC_R; numOfRecR *= 10)
 	{
-		for(int numOfRecS = 25; numOfRecS <= NUM_OF_MAX_REC_S; numOfRecS *= 10)
+		for(int numOfRecS = 25; numOfRecS <= NUM_OF_MAX_REC_S && numOfRecS < numOfRecR; numOfRecS *= 10)
 		{
 			printf("%-10s%15s%15s%15s\n", "Settings", "# Buf Pages", "# Rec in R", "# Rec in S"); 
 			printf("%25d%15d%15d\n", NUM_OF_BUF_PAGES_ORIGINAL, numOfRecR, numOfRecS); 
@@ -183,8 +183,7 @@ void perfCompTask3()
 			for(int numOfRepetition = 0; numOfRepetition < NUM_OF_REPETITION_TASK3; numOfRepetition++)
 			{
 				// display progress bar
-
-				int percentage = (int) ((count / (float) (NUM_OF_REPETITION_TASK3 * 3 * 3)) * 100);
+				int percentage = (int) ((count / (float) (NUM_OF_REPETITION_TASK2 * 6)) * 100);
 				loadbar(percentage, 100);
 				if(percentage == 100) cout << endl;
 
