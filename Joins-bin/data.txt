@@ -2,85 +2,144 @@
 Settings      # Buf Pages     # Rec in R     # Rec in S
                        50          10000           2500
 Results         Avg # Pin   Avg # Misses   Avg Duration
-Tuple Join         596469         511315       1.626664
-Block Join          66787           1082       0.260550
-Index Join             16              6       0.000045
+Tuple Join         596469         511315       1.580910
+Block Join          66787           1082       0.250078
+Index Join             16              6       0.000044
 
->>----------End of Test 1----------
+>>----------End of Test 1: Origional settings----------
 
 >>----------Test 2: Variant buffer size----------
 Settings      # Buf Pages     # Rec in R     # Rec in S
                        16          10000           2500
 Results         Avg # Pin   Avg # Misses   Avg Duration
-Tuple Join         596469         553215       1.645053
-Block Join          68271           2590       0.282629
+Tuple Join         596469         553215       1.602876
+Block Join          68271           2590       0.253056
 Index Join             16              6       0.000042
 
 Settings      # Buf Pages     # Rec in R     # Rec in S
                        64          10000           2500
 Results         Avg # Pin   Avg # Misses   Avg Duration
-Tuple Join         596469            788       1.171490
-Block Join          66734           1017       0.259489
+Tuple Join         596469            788       1.189948
+Block Join          66734           1017       0.251087
 Index Join             16              6       0.000045
 
 Settings      # Buf Pages     # Rec in R     # Rec in S
                       256          10000           2500
 Results         Avg # Pin   Avg # Misses   Avg Duration
-Tuple Join         596469            747       1.277210
-Block Join          66522            776       0.261634
-Index Join             16              6       0.000042
+Tuple Join         596469            747       1.245568
+Block Join          66522            776       0.256826
+Index Join             16              6       0.000050
 
 Settings      # Buf Pages     # Rec in R     # Rec in S
                      1024          10000           2500
 Results         Avg # Pin   Avg # Misses   Avg Duration
-Tuple Join         596469            459       1.297942
-Block Join          66522            459       0.274338
+Tuple Join         596469            459       1.268922
+Block Join          66522            459       0.259093
 Index Join             16              2       0.000044
 
->>----------End of Test 2----------
+>>----------End of Test 2: Variant buffer size----------
 
->>----------Test 3: Variant R & S size----------
+>>----------Test 3: Variant R size----------
 Settings      # Buf Pages     # Rec in R     # Rec in S
-                       50            100             25
+                       50              2           2500
 Results         Avg # Pin   Avg # Misses   Avg Duration
-Tuple Join            455              6       0.000220
-Block Join            257              6       0.000093
-Index Join             16              2       0.000010
-
-Settings      # Buf Pages     # Rec in R     # Rec in S
-                       50           1000             25
-Results         Avg # Pin   Avg # Misses   Avg Duration
-Tuple Join           4450             66       0.002872
-Block Join           2452             56       0.001253
-Index Join             16              4       0.000020
+Tuple Join            127            109       0.000518
+Block Join             74             52       0.000210
+Index Join             16              4       0.000017
 
 Settings      # Buf Pages     # Rec in R     # Rec in S
-                       50           1000            250
+                       50              8           2500
 Results         Avg # Pin   Avg # Misses   Avg Duration
-Tuple Join           9450             69       0.012913
-Block Join           2457             67       0.003163
-Index Join             16              4       0.000020
+Tuple Join            457            413       0.001442
+Block Join             86             52       0.000325
+Index Join             16              4       0.000018
 
 Settings      # Buf Pages     # Rec in R     # Rec in S
-                       50          10000             25
+                       50             32           2500
 Results         Avg # Pin   Avg # Misses   Avg Duration
-Tuple Join          86469            747       0.074439
-Block Join          66481            754       0.059095
-Index Join             16              5       0.000037
+Tuple Join           1786           1613       0.005064
+Block Join            143             54       0.000853
+Index Join             16              4       0.000017
 
 Settings      # Buf Pages     # Rec in R     # Rec in S
-                       50          10000            250
+                       50            128           2500
 Results         Avg # Pin   Avg # Misses   Avg Duration
-Tuple Join         136469            747       0.176421
-Block Join          66511            795       0.076657
+Tuple Join           7105           6446       0.019767
+Block Join            374             61       0.002769
+Index Join             16              3       0.000017
+
+Settings      # Buf Pages     # Rec in R     # Rec in S
+                       50            512           2500
+Results         Avg # Pin   Avg # Misses   Avg Duration
+Tuple Join          28398          25629       0.078892
+Block Join           1315             92       0.010374
+Index Join             16              6       0.000025
+
+Settings      # Buf Pages     # Rec in R     # Rec in S
+                       50           2048           2500
+Results         Avg # Pin   Avg # Misses   Avg Duration
+Tuple Join         113552         102390       0.314852
+Block Join           5114            259       0.043508
+Index Join             16              6       0.000040
+
+Settings      # Buf Pages     # Rec in R     # Rec in S
+                       50           8192           2500
+Results         Avg # Pin   Avg # Misses   Avg Duration
+Tuple Join         481564         416531       1.314850
+Block Join          47653            886       0.200664
+Index Join             16              6       0.000039
+
+>>----------End of Test 3: Variant R size----------
+
+>>----------Test 3: Variant S size----------
+Settings      # Buf Pages     # Rec in R     # Rec in S
+                       50          10000              2
+Results         Avg # Pin   Avg # Misses   Avg Duration
+Tuple Join          86469            747       0.064967
+Block Join          66481            762       0.057190
+Index Join             16              5       0.000036
+
+Settings      # Buf Pages     # Rec in R     # Rec in S
+                       50          10000              8
+Results         Avg # Pin   Avg # Misses   Avg Duration
+Tuple Join          86469            747       0.067563
+Block Join          66481            754       0.057883
+Index Join             16              5       0.000036
+
+Settings      # Buf Pages     # Rec in R     # Rec in S
+                       50          10000             32
+Results         Avg # Pin   Avg # Misses   Avg Duration
+Tuple Join          86469            747       0.076883
+Block Join          66481            754       0.059735
+Index Join             16              5       0.000031
+
+Settings      # Buf Pages     # Rec in R     # Rec in S
+                       50          10000            128
+Results         Avg # Pin   Avg # Misses   Avg Duration
+Tuple Join         106469            747       0.118565
+Block Join          66493            781       0.067305
+Index Join             16              5       0.000036
+
+Settings      # Buf Pages     # Rec in R     # Rec in S
+                       50          10000            512
+Results         Avg # Pin   Avg # Misses   Avg Duration
+Tuple Join         186469            747       0.287018
+Block Join          66541            824       0.096548
 Index Join             16              5       0.000041
 
 Settings      # Buf Pages     # Rec in R     # Rec in S
-                       50          10000           2500
+                       50          10000           2048
 Results         Avg # Pin   Avg # Misses   Avg Duration
-Tuple Join         596469         511315       1.630731
-Block Join          66787           1082       0.252440
-Index Join             16              6       0.000042
+Tuple Join         496469           2336       0.954325
+Block Join          66727           1014       0.214366
+Index Join             16              6       0.000041
 
->>----------End of Test 3----------
+Settings      # Buf Pages     # Rec in R     # Rec in S
+                       50          10000           8192
+Results         Avg # Pin   Avg # Misses   Avg Duration
+Tuple Join        1766469        1722204       5.059543
+Block Join          67489           1783       0.751575
+Index Join             16              7       0.000054
+
+>>----------End of Test 3: Variant S size----------
 
